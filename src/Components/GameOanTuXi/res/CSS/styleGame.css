@@ -1,0 +1,45 @@
+@font-face {
+  font-family: fontGame;
+  src: url(../Font/Pony.ttf);
+}
+
+.bg-game {
+  background-image: url(../asset/bgGame.png);
+  font-family: fontGame;
+  width: 100vw;
+  height: 100vh;
+  background-size: contain;
+  background-position: center;
+}
+
+.speech-bubble {
+  position: relative;
+  background: #45d994;
+  border-radius: 0.4em;
+  width: 150px;
+  height: 110px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.speech-bubble:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 35px solid transparent;
+  border-top-color: #45d994;
+  border-bottom: 0;
+  border-left: 0;
+  margin-left: -17.5px;
+  margin-bottom: -35px;
+}
+.player-computer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;  
+}
