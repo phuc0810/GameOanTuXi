@@ -4,53 +4,47 @@ import { connect } from "react-redux";
 class Player extends Component {
   render() {
     console.log(this.props);
-    let { mangOanTuXi } = this.props;
     return (
       <div className="player-computer">
-        {/* đánh tù xì */}
+        {/* ý nghĩ của ironman */}
         <div className="speech-bubble">
-          <div
-            className="oanTuXi"
-            style={{
-              background: "#fff",
-              width: "80%",
-              height: "80%",
-              borderRadius: "10px",
-            }}
-          >
-            <img
-              src={this.props.mangOanTuXi.find((kq) => kq.datCuoc === true).img}
-              alt={this.props.mangOanTuXi.find((kq) => kq.datCuoc === true).img}
-              width={80}
-            />
-          </div>
+          <img
+            className="bg-white"
+            style={{ borderRadius: "5px" }}
+            width={100}
+            height={100}
+            src={
+              this.props.mangKeoBuaBao.find((item) => item.datCuoc === true).img
+            }
+            alt={
+              this.props.mangKeoBuaBao.find((item) => item.datCuoc === true).img
+            }
+          />
         </div>
-        {/* hình ironMan */}
         <img
-          style={{ width: "150px", height: "150px", marginTop: "20px" }}
+          style={{ width: "150px", height: "150px" }}
           src="./img/gameOanTuXi/player.png"
           alt="./img/gameOanTuXi/player.png"
         />
-        {/* keo bua bao */}
-        <div className="option d-flex">
-          {mangOanTuXi.map((kq, i) => {
+        <div className="d-flex justify-content-center align-items-center">
+          {this.props.mangKeoBuaBao.map((item, i) => {
             let border = {};
-            if (kq.datCuoc) {
-              border = { border: "5px solid green" };
+            if (item.datCuoc === true) {
+              border = { border: "5px solid seagreen" };
             }
             return (
               <button
-                onClick={() => {
-                  this.props.thayDoiKeoBuaBao(kq.ma);
-                }}
-                key={i}
-                className="mr-2 btnItem bg-dark"
                 style={border}
+                onClick={() => {
+                  this.props.thayDoiLuaChon(item.ma);
+                }}
+                className="bg-info mr-2"
+                key={i}
               >
                 <img
-                  style={{ width: "100px", height: "100px" }}
-                  src={kq.img}
-                  alt={kq.img}
+                  style={{ width: "80px", height: "80px", border: "none" }}
+                  src={item.img}
+                  alt={item.img}
                 />
               </button>
             );
@@ -63,16 +57,16 @@ class Player extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    mangOanTuXi: state.gameOanTuXiReducer.mangOanTuXi,
+    mangKeoBuaBao: state.gameOanTuXiReducer.mangKeoBuaBao,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    thayDoiKeoBuaBao: (ma) => {
+    thayDoiLuaChon: (maItem) => {
       const action = {
-        type: "THAY_DOI_KBB",
-        ma,
+        type: "KEO_BUA_BAO",
+        maItem,
       };
       dispatch(action);
     },

@@ -1,87 +1,80 @@
 let stateDefault = {
-  mangOanTuXi: [
-    { ma: "keo", img: "./img/gameOanTuXi/keo.png", datCuoc: true },
+  mangKeoBuaBao: [
     { ma: "bao", img: "./img/gameOanTuXi/bao.png", datCuoc: false },
+    { ma: "keo", img: "./img/gameOanTuXi/keo.png", datCuoc: true },
     { ma: "bua", img: "./img/gameOanTuXi/bua.png", datCuoc: false },
   ],
-  ketQua: "bạn đã thua",
+  ketQua: "you winner",
   soBanThang: 0,
-  soBanChoi: 0,
-  computer: { ma: "bua", img: "./img/gameOanTuXi/bao.png" },
+  soLanChoi: 0,
+  computer: { ma: "bua", img: "./img/gameOanTuXi/bua.png" },
 };
 
 export const gameOanTuXiReducer = (state = stateDefault, action) => {
   switch (action.type) {
-    case "THAY_DOI_KBB": {
-      let newMangOanTuXi = [...state.mangOanTuXi];
-      // reset mang cho thuoc tinh datcuoc=false
-      newMangOanTuXi = newMangOanTuXi.map((item, i) => {
-        if (item.ma === action.ma) {
+    case "KEO_BUA_BAO": {
+      let newmangKeoBuaBao = [...state.mangKeoBuaBao];
+      newmangKeoBuaBao = newmangKeoBuaBao.map((item, i) => {
+        if (item.ma === action.maItem) {
           return { ...item, datCuoc: true };
         }
         return { ...item, datCuoc: false };
       });
-
-      state.mangOanTuXi = newMangOanTuXi;
+      state.mangKeoBuaBao = newmangKeoBuaBao;
       return { ...state };
     }
-    case "PLAY-GAME": {
-      console.log(action);
+    case "PLAY_GAME": {
       let random = Math.floor(Math.random() * 3);
-      let quanCuocRandom = state.mangOanTuXi[random];
-      state.computer = quanCuocRandom;
+      let itemRandom = state.mangKeoBuaBao[random];
+      state.computer = itemRandom;
       return { ...state };
     }
     case "END_GAME": {
-      let player = state.mangOanTuXi.find((item) => {
-        return item.datCuoc === true;
-      });
-      let computer = state.computer.ma;
-
-      switch (player.ma) {
+      let newmangKeoBuaBao = [...state.mangKeoBuaBao];
+      let item = newmangKeoBuaBao.find((item) => item.datCuoc === true);
+      switch (item.ma) {
         case "bua":
           {
-            if (computer === "bao") {
-              state.ketQua = "bạn đã thua";
-            } else if (computer === "keo") {
-              state.ketQua = "bạn đã thắng";
+            if (state.computer.ma === "bua") {
+              state.ketQua = "hoa";
+            } else if (state.computer.ma === "bao") {
+              state.ketQua = "thua";
+            } else if (state.computer.ma === "keo") {
+              state.ketQua = "thang";
               state.soBanThang += 1;
-            } else if (computer === "bua") {
-              state.ketQua = "hòa nhau";
             }
           }
           break;
         case "bao":
           {
-            if (computer === "bao") {
-              state.ketQua = "hòa nhau";
-            } else if (computer === "keo") {
-              state.ketQua = "bạn đã thua";
-            } else if (computer === "bua") {
-              state.ketQua = "bạn đã thắng";
+            if (state.computer.ma === "bua") {
+              state.ketQua = "thang";
               state.soBanThang += 1;
+            } else if (state.computer.ma === "bao") {
+              state.ketQua = "hoa";
+            } else if (state.computer.ma === "keo") {
+              state.ketQua = "thua";
             }
           }
           break;
         case "keo":
           {
-            if (computer === "bao") {
-              state.ketQua = "bạn đã thắng";
+            if (state.computer.ma === "bua") {
+              state.ketQua = "thua";
+            } else if (state.computer.ma === "bao") {
+              state.ketQua = "thang";
               state.soBanThang += 1;
-            } else if (computer === "keo") {
-              state.ketQua = "hòa nhau";
-            } else if (computer === "bua") {
-              state.ketQua = "bạn đã thua";
+            } else if (state.computer.ma === "keo") {
+              state.ketQua = "hoa";
             }
           }
           break;
-
-        default:
-          state.ketQua = "bạn đã thắng";
       }
-      state.soBanChoi += 1;
+      state.mangKeoBuaBao = newmangKeoBuaBao;
+      state.soLanChoi += 1;
       return { ...state };
     }
   }
+
   return state;
 };
